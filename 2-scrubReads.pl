@@ -141,7 +141,7 @@ foreach my $file1 (@files) {
   die(qq/\nHmm.. The instrument ID is NOT $InID... Check "-i"? \n\n/) if ($firstline !~ m/^\@$InID\S+/ );
   close IN;
   my $file2 = $file1;
-  $file2 =~ s/R1/R2/;
+  $file2 =~ s/_R1.fq/_R2.fq/;
   my $lib = $1 if basename($file1) =~ m/(\S+)_R[1|2]/i;   
   
   my $start1 = time;	
@@ -455,7 +455,8 @@ sub mergeReads {
   my $newread2 = $orig->{'2'} . '_' .$base .'_p2';
   my $newreadu = $orig->{'1'} . '_' .$base .'_u';
   
-  my $call1 = system("$flash $reads{'1'} $reads{'2'} -M 100 -m 5 -x $opts{g} -f $opts{e} -o $lib");
+  #my $call1 = system("$flash $reads{'1'} $reads{'2'} -M 100 -m 5 -x $opts{g} -f $opts{e} -o $lib");
+  my $call1 = system("$flash $reads{'1'} $reads{'2'} -M 159 -m 10 -x $opts{g} -f $opts{e} -o $lib"); #use if MiSeq 150PE is run
   die(qq/\nThe program "flash" is not in path! \n\n/) if ($call1 == -1 );
   
   open (EXTEND,"<",  $lib . ".extendedFrags.fastq");
@@ -557,7 +558,7 @@ sub fixMatePair {
   my %newpairs = ('1' => $out1, '2' => $out2, 'u' => $outu);
   foreach my $reads (@trim) {
     open(IN, "<$reads");
-    my $file = $1 if $reads =~ m/R(\d+)./;
+    my $file = $1 if $reads =~ m/_R(\d+)./;
     while(<IN>) {
       chomp(my $line = $_);	
       if ($line =~ m/^@($InID\S+)\/[1|2]$/) {

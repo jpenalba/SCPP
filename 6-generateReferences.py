@@ -179,8 +179,8 @@ for lib in liblist:
 
     print ('PARSING READS COMPLETE. BLAST TO FINAL ASSEMBLY...')
 
-    os.system("formatdb -i %s -p F" % (assembly))
-    os.system("blastall -p blastn -d %s -i %s/readsout.fa -a 4 -e %s -m 8 -o %s/blast.out -b 10" % (assembly, OutDir, evalue, OutDir))
+    os.system("makeblastdb -in %s -dbtype nucl" % (assembly))
+    os.system("blastn -db %s -query %s/readsout.fa -num_threads 4 -evalue %s -outfmt 6 -out %s/blast.out -num_alignments 10" % (assembly, OutDir, evalue, OutDir))
     os.system("rm %s.*" % (assembly))
 
 #########################################

@@ -48,10 +48,10 @@ foreach (<@orig_files>) {
 
 my @merged_files = < $Result_dir1*.fastq.gz> ;
 foreach my $file (<@merged_files>) {
-	my $out = $Result_dir2 .  $1 . $2 . ".fq" if basename($file)  =~ /(\S+)_[A|T|C|G|-]+_L\d+(_R[1|2]).fastq.gz/;
+	my $out = $Result_dir2 .  $1 . $2 . ".fq" if basename($file)  =~ /(\S+)_\S+_L\d+(_R[1|2]).fastq.gz/;
 	my $redundancy = '^--$' ; 
 	print "cleaning","\t",$file,"\n";
-		if ($file =~ m/R(\d+)/) {
+		if ($file =~ m/_R(\d+)/) {
 			if ($1 == 1) {
 				system ("zcat $file | grep -A 3 \'^@.* [^:]*:N:[^:]*:\'  | grep -v $redundancy | sed \'s/ 1:N:0:.*/\\/1/g\' > $out");
 			}

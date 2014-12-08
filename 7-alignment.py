@@ -75,10 +75,10 @@ for project in proj:
         os.system('novoindex %s%s.out %s' % (outdir, libname, ref))
 
 #Call to align paired reads
-        os.system('novoalign -d %s%s.out -f %s %s -i PE %s, %s -t %s -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA -rAll -F STDFQ -o SAM > %soutPairedSam1' % (outdir, libname, read1, read2, insertSize, insertStd, maxScore, outdir))
+        os.system('novoalign -d %s%s.out -f %s %s -i PE %s, %s -t %s -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA -r All -F STDFQ -o SAM > %soutPairedSam1' % (outdir, libname, read1, read2, insertSize, insertStd, maxScore, outdir))
 
 #Call to align unpaired reads
-        os.system('novoalign -d %s%s.out -f %s -t %s -n %s -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA -rAll -F STDFQ -o SAM > %soutSoloSam1' % (outdir, libname, readu, maxScore, maxLen, outdir))
+        os.system('novoalign -d %s%s.out -f %s -t %s -n %s -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA -r All -F STDFQ -o SAM > %soutSoloSam1' % (outdir, libname, readu, maxScore, maxLen, outdir))
 
 #Grep only the aligned reads out of the novoalign output, then use samtools to merge and index
 #only printout aligned reads
